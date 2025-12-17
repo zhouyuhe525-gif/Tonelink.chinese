@@ -9,3 +9,4 @@ openai
 gTTS
 PyPDF2
 numpy
+PyGithub
