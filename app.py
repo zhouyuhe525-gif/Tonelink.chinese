@@ -663,7 +663,7 @@ def page_task_library():
     with col_tools:
         with st.popover("➕📂 新建文件夹"):
            new_folder = st.text_input("文件夹名称", key="create_folder_final_v999")
-            if st.button("创建", type="primary"):
+           if st.button("创建", type="primary"):
                 if new_folder:
                     os.makedirs(os.path.join(current_path, new_folder), exist_ok=True)
                     st.success("已创建")
