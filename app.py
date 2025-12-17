@@ -596,26 +596,26 @@ def page_task_library():
             font-family: "Kaiti SC", "KaiTi", serif;
         }
         
-        /* 通用按钮样式 (次要操作：修改、复制、链接、删除) */
+        /* 通用按钮样式 (次要操作) */
         div.stButton > button[kind="secondary"] {
-            background-color: #F9EBEB !important; /* 浅藕粉 */
-            border: 1px solid #D7CCC8 !important; /* 浅棕边框 */
-            color: #5D4037 !important;            /* 深棕文字 */
-            border-radius: 12px !important;       /* 圆润 */
+            background-color: #F9EBEB !important; 
+            border: 1px solid #D7CCC8 !important; 
+            color: #5D4037 !important;            
+            border-radius: 12px !important;       
             font-size: 15px !important;
             height: auto !important;
             padding: 8px 15px !important;
             transition: all 0.2s;
         }
         div.stButton > button[kind="secondary"]:hover {
-            background-color: #EBCbcB !important; /* 悬停变深 */
+            background-color: #EBCbcB !important;
             border-color: #8D6E63 !important;
             transform: translateY(-2px);
         }
 
-        /* 核心按钮样式 (主要操作：创建、模拟打开) */
+        /* 核心按钮样式 (主要操作) */
         div.stButton > button[kind="primary"] {
-            background-color: #8D6E63 !important; /* 深棕 */
+            background-color: #8D6E63 !important; 
             color: white !important;
             border: none !important;
             border-radius: 12px !important;
@@ -656,10 +656,11 @@ def page_task_library():
     # --- 顶部工具栏 ---
     col_tools, col_nav = st.columns([1, 2])
     
-    # 左边：新建文件夹 (Form版本)
+    # 左边：新建文件夹
     with col_tools:
         with st.popover("➕📂 新建文件夹"):
-            with st.form("unique_folder_form_v10086", clear_on_submit=True):
+            # 使用 Form 彻底隔离 Key 冲突，名字设为 create_folder_v_final_1
+            with st.form("create_folder_v_final_1", clear_on_submit=True):
                 new_folder = st.text_input("文件夹名称")
                 submitted = st.form_submit_button("创建", type="primary")
                 
@@ -749,11 +750,11 @@ def page_task_library():
                     if st.button(T("btn_link"), key=f"lnk_{filename}"):
                         safe_name = filename  
                         path_id = base64.b64encode(safe_name.encode()).decode()
-                        # ⚠️ 注意：这里默认读取浏览器地址，或者你可以手动填你的 .streamlit.app 网址
+                        # ⚠️ 这里填的是你刚才截图里的真实网址
                         real_url = "https://tonelink-chinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
                         link = f"{real_url}?task_id={path_id}"
                         st.code(link, language="text")
-                        st.caption("复制链接发给学生")
+                        st.caption("复制上面的链接发给学生")
 
                 with c4:
                     if st.button("🚀 模拟打开", key=f"go_{filename}", type="primary"):
