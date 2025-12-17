@@ -19,6 +19,7 @@ import json
 import hashlib
 import PyPDF2
 import re  # <--- 新增这一行
+from github import Github, GithubException # 引入 GitHub 工具
 
 # --- 页面配置 ---
 st.set_page_config(page_title="ToneLink V45", page_icon="🎨", layout="wide")
@@ -53,12 +54,18 @@ try:
     MY_AZURE_REGION = st.secrets["AZURE_SPEECH_REGION"]
     MY_DEEPSEEK_KEY = st.secrets["DEEPSEEK_API_KEY"]
     MY_QWEN_KEY = st.secrets["QWEN_API_KEY"]
+    MY_GITHUB_TOKEN = st.secrets.get("GITHUB_TOKEN", "") # 新增这一行
 except:
-    # 如果读取失败（比如在本地没配置），就留空，等待用户手动填
+    # 如果读取失败（比如在本地没配置），就留空
     MY_AZURE_KEY = "" 
     MY_AZURE_REGION = "eastasia"
     MY_DEEPSEEK_KEY = "" 
     MY_QWEN_KEY = ""
+    MY_GITHUB_TOKEN = "" # 新增这一行
+
+# ⚠️⚠️⚠️ 请在这里填入你的 GitHub 仓库名字！
+# 格式： "zhouyuhe525-gif" (去你的GitHub网页左上角看)
+GITHUB_REPO_NAME = "zhouyuhe525-gif/Tonelink.chinese"
 # ==========================================
 
 # --- 🌍 国际化字典 ---
@@ -240,7 +247,49 @@ else:
     # 这里的 else 属于学生页面
     # 我们可以稍微隐藏一下侧边栏的图标，或者什么都不做，侧边栏就是空的
     pass
+    
+# ==========================================
+# ☁️ GitHub 同步核心函数 (新增)
+# ==========================================
+def get_repo():
+    if not MY_GITHUB_TOKEN: return None
+    try:
+        g = Github(MY_GITHUB_TOKEN)
+        return g.get_repo(GITHUB_REPO_NAME)
+    except: return None
 
+def sync_file_to_github(file_path, content_bytes, commit_message="Update data"):
+    """把本地文件推送到 GitHub (新建或覆盖)"""
+    if not MY_GITHUB_TOKEN: return
+    try:
+        repo = get_repo()
+        if not repo: return
+        # GitHub 路径不包含开头的 /
+        remote_path = file_path.replace("\\", "/") 
+        
+        try:
+            # 尝试获取文件 (看是否存在)
+            contents = repo.get_contents(remote_path)
+            # 如果存在，更新它
+            repo.update_file(contents.path, commit_message, content_bytes, contents.sha)
+        except:
+            # 如果不存在，创建它
+            repo.create_file(remote_path, commit_message, content_bytes)
+    except Exception as e:
+        print(f"GitHub Sync Error: {e}")
+
+def load_file_from_github(file_path):
+    """从 GitHub 读取文件内容"""
+    if not MY_GITHUB_TOKEN: return None
+    try:
+        repo = get_repo()
+        if not repo: return None
+        remote_path = file_path.replace("\\", "/")
+        contents = repo.get_contents(remote_path)
+        return contents.decoded_content
+    except:
+        return None
+        
 def get_tts_audio(text):
     if not text: return None
     file_hash = hashlib.md5(text.encode('utf-8')).hexdigest()
@@ -500,6 +549,9 @@ def save_submission(student_name, task_title):
             "音频": audio_file, "图片": img_file, "状态": "未批改", "时间": datetime.now().strftime("%Y-%m-%d %H:%M")
         })
     pd.DataFrame(summary_data).to_csv(os.path.join(student_dir, "report.csv"), index=False)
+    # 🟢 同步 CSV 到 GitHub
+    if MY_GITHUB_TOKEN:
+        sync_file_to_github(csv_path, df.to_csv(index=False).encode('utf-8'), f"Report: {student_name}")
     return True
 
 def generate_workbook_html(task_title, word_list):
@@ -534,26 +586,47 @@ def save_task_to_file(task_data, filename=None):
     data_to_save = copy.deepcopy(task_data)
     for q in data_to_save.get('speak', []):
         if 'image_data' in q: del q['image_data']
+    
+    # 1. 保存到本地 (Streamlit Cloud 临时存储)
     with open(file_path, "w", encoding='utf-8') as f: json.dump(data_to_save, f, ensure_ascii=False, indent=4)
+    
+    # 2. 🟢 关键升级：同步到 GitHub (永久存储)
+    if MY_GITHUB_TOKEN:
+        json_str = json.dumps(data_to_save, ensure_ascii=False, indent=4)
+        sync_file_to_github(file_path, json_str.encode('utf-8'), f"Add task: {filename}")
+        st.toast(f"✅ 作业已同步到 GitHub 云端")
+    
     return filename
 
 def load_task_from_file(filename):
-    # 这里的 filename 可能是 "test.json" 也可能是 "班级A/test.json"
-    # 如果 filename 已经包含了 "tasks/" 前缀（某些逻辑可能会这样），我们要处理一下
-    if filename.startswith("tasks/"):
-        file_path = filename
-    else:
-        file_path = os.path.join("tasks", filename)
-        
+    if filename.startswith("tasks/"): file_path = filename
+    else: file_path = os.path.join("tasks", filename)
+    
+    # 1. 先尝试从本地读 (速度快)
     if os.path.exists(file_path):
         with open(file_path, "r", encoding='utf-8') as f: 
             data = json.load(f)
-            # 恢复图片数据
             for q in data.get('speak', []):
                 if 'image_b64' in q:
                     try: q['image_data'] = base64.b64decode(q['image_b64'])
                     except: pass
             return data
+    
+    # 2. 🟢 关键升级：如果本地没有 (可能服务器重启了)，尝试从 GitHub 下载
+    else:
+        content = load_file_from_github(file_path)
+        if content:
+            # 存回本地，下次直接读
+            if not os.path.exists("tasks"): os.makedirs("tasks")
+            with open(file_path, "wb") as f: f.write(content)
+            
+            data = json.loads(content.decode('utf-8'))
+            for q in data.get('speak', []):
+                if 'image_b64' in q:
+                    try: q['image_data'] = base64.b64decode(q['image_b64'])
+                    except: pass
+            return data
+            
     return None
 
 def generate_tone_options_smart(text):
