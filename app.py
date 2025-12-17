@@ -661,9 +661,9 @@ def page_task_library():
     # --- 顶部工具栏 ---
     col_tools, col_nav = st.columns([1, 2])
     with col_tools:
+        # 使用 Popover + Form，Key 设为绝无仅有的名字
         with st.popover("➕📂 新建文件夹"):
-            # 使用 Form 表单，彻底隔离 Key 冲突！
-            with st.form("new_folder_form", clear_on_submit=True):
+            with st.form("unique_folder_form_v10086", clear_on_submit=True):
                 new_folder = st.text_input("文件夹名称")
                 submitted = st.form_submit_button("创建", type="primary")
                 
@@ -675,6 +675,9 @@ def page_task_library():
                         st.rerun()
                     else:
                         st.warning("文件夹已存在")
+    
+    # 这一行必须靠左（和上面的 col_tools 对齐），不要缩进到 with col_tools 里！
+    with col_nav:
     
     with col_nav:
         if st.session_state.current_folder:
