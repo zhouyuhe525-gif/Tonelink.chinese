@@ -660,8 +660,9 @@ def page_task_library():
 
     # --- 顶部工具栏 ---
     col_tools, col_nav = st.columns([1, 2])
+    
+    # 1. 左边：新建文件夹工具
     with col_tools:
-        # 使用 Popover + Form，Key 设为绝无仅有的名字
         with st.popover("➕📂 新建文件夹"):
             with st.form("unique_folder_form_v10086", clear_on_submit=True):
                 new_folder = st.text_input("文件夹名称")
@@ -675,10 +676,8 @@ def page_task_library():
                         st.rerun()
                     else:
                         st.warning("文件夹已存在")
-    
-    # 这一行必须靠左（和上面的 col_tools 对齐），不要缩进到 with col_tools 里！
-    with col_nav:
-    
+
+    # 2. 右边：导航路径和返回按钮 (你的代码里这里是空的，所以报错)
     with col_nav:
         if st.session_state.current_folder:
             if st.button("🔙 返回上一级", key="btn_back_folder"):
