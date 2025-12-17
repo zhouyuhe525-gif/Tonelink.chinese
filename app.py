@@ -745,8 +745,18 @@ def page_task_library():
 
                 with c3:
                     if st.button(T("btn_link"), key=f"lnk_{filename}"):
-                        path_id = base64.b64encode(rel_path.encode()).decode()
-                        st.code(f"http://tonelink.app/exam?id={path_id}", language="text")
+                    # 1. 获取文件名
+                    safe_name = filename  
+                    
+                    # 2. 加密文件名
+                    path_id = base64.b64encode(safe_name.encode()).decode()
+                    
+                    # 3. 拼接真实链接 (⚠️记得把下面引号里的地址改成你浏览器地址栏里的真实网址⚠️)
+                    real_url = "https://tonelink-chinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
+                    
+                    link = f"{real_url}?task_id={path_id}"
+                    st.code(link, language="text")
+                    st.caption("复制上面的链接发给学生")
 
                 with c4:
                     # 这个是核心按钮，用 Primary 样式 (深棕色)
@@ -1778,6 +1788,44 @@ def page_review_dashboard():
                 html = generate_report_html(student, task, df)
                 b64 = base64.b64encode(html.encode()).decode()
                 st.markdown(f'<a href="data:text/html;base64,{b64}" download="{student}_final_report.html" style="background:#4CAF50;color:white;padding:10px 20px;text-decoration:none;border-radius:10px;">📥 点击下载 HTML 成绩单</a>', unsafe_allow_html=True)
+# ==========================================
+# 🔗 核心逻辑：检查网址链接，自动跳转
+# ==========================================
+# 获取网址栏参数
+try:
+    query_params = st.query_params
+except:
+    query_params = {} # 兼容旧版
+
+if "task_id" in query_params and st.session_state.get('auto_jump') != True:
+    try:
+        # 1. 解码任务文件名
+        b64_id = query_params["task_id"]
+        if isinstance(b64_id, list): b64_id = b64_id[0] # 防止列表
+        
+        task_filename = base64.b64decode(b64_id).decode()
+        
+        # 2. 尝试加载任务
+        task_data = load_task_from_file(task_filename)
+        
+        if task_data:
+            # 3. 设置状态，直接跳到学生登录或考试页
+            st.session_state.active_task_data = task_data
+            st.session_state.student_answers = {}
+            st.session_state.page = 'student_login' # 或者直接跳 'student_exam'
+            st.session_state.auto_jump = True # 防止死循环刷新
+            st.rerun() # 强制刷新页面进入
+        else:
+            st.error(f"未找到任务文件: {task_filename}")
+    except Exception as e:
+        st.error(f"链接无效: {e}")
+
+# ==========================================
+# 下面是你原本的页面路由代码 (保持不变)
+# ==========================================
+if st.session_state.page == 'home': page_home()
+elif st.session_state.page == 'task_library': page_task_library()
+# ...
 
 if st.session_state.page == 'home': page_home()
 elif st.session_state.page == 'task_library': page_task_library()
