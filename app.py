@@ -597,7 +597,6 @@ def page_task_library():
         }
         
         /* 通用按钮样式 (次要操作：修改、复制、链接、删除) */
-        /* 变成藕粉色小卡片/药丸 */
         div.stButton > button[kind="secondary"] {
             background-color: #F9EBEB !important; /* 浅藕粉 */
             border: 1px solid #D7CCC8 !important; /* 浅棕边框 */
@@ -615,7 +614,6 @@ def page_task_library():
         }
 
         /* 核心按钮样式 (主要操作：创建、模拟打开) */
-        /* 变成深棕色实心按钮 */
         div.stButton > button[kind="primary"] {
             background-color: #8D6E63 !important; /* 深棕 */
             color: white !important;
@@ -636,9 +634,6 @@ def page_task_library():
             color: #5D4037 !important;
         }
         
-        /* 文件夹按钮特殊样式 (可选) */
-        /* 通过 key 识别不太容易，统一用 secondary 样式即可，看起来像文件夹标签 */
-
         /* Expander (折叠框) 样式 */
         .streamlit-expanderHeader {
             background-color: #FDF6F6 !important;
@@ -661,7 +656,7 @@ def page_task_library():
     # --- 顶部工具栏 ---
     col_tools, col_nav = st.columns([1, 2])
     
-    # 1. 左边：新建文件夹工具
+    # 左边：新建文件夹 (Form版本)
     with col_tools:
         with st.popover("➕📂 新建文件夹"):
             with st.form("unique_folder_form_v10086", clear_on_submit=True):
@@ -676,8 +671,8 @@ def page_task_library():
                         st.rerun()
                     else:
                         st.warning("文件夹已存在")
-
-    # 2. 右边：导航路径和返回按钮 (你的代码里这里是空的，所以报错)
+    
+    # 右边：导航路径
     with col_nav:
         if st.session_state.current_folder:
             if st.button("🔙 返回上一级", key="btn_back_folder"):
@@ -698,13 +693,12 @@ def page_task_library():
     dirs = [d for d in items if os.path.isdir(os.path.join(current_path, d))]
     files = [f for f in items if f.endswith(".json")]
 
-    # 2. 显示文件夹 (黄色图标感)
+    # 2. 显示文件夹
     if dirs:
         st.subheader("📁 文件夹")
         cols = st.columns(4)
         for i, d in enumerate(dirs):
             with cols[i % 4]:
-                # 文件夹按钮
                 if st.button(f"📂 {d}", key=f"dir_{d}", use_container_width=True):
                     if st.session_state.current_folder:
                         st.session_state.current_folder = os.path.join(st.session_state.current_folder, d)
@@ -720,7 +714,7 @@ def page_task_library():
             
             with st.expander(f"📄 {filename.replace('.json', '')}", expanded=False):
                 
-                # --- 第一行：核心操作 (重命名) ---
+                # --- 第一行：重命名 ---
                 c_name, c_save = st.columns([3, 1])
                 with c_name:
                     new_name = st.text_input("重命名", value=filename.replace(".json",""), key=f"rn_{filename}", label_visibility="collapsed")
@@ -731,10 +725,9 @@ def page_task_library():
                         os.rename(src, dst)
                         st.success("已更新"); st.rerun()
                 
-                st.write("") # 间距
+                st.write("") 
 
-                # --- 第二行：功能按钮矩阵 (6列) ---
-                # 编辑 | 复制 | 链接 | 模拟(红) | 移动(下拉) | 删除
+                # --- 第二行：功能按钮矩阵 ---
                 c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.2, 0.8])
                 
                 with c1:
@@ -754,21 +747,15 @@ def page_task_library():
 
                 with c3:
                     if st.button(T("btn_link"), key=f"lnk_{filename}"):
-                        # 1. 获取文件名
                         safe_name = filename  
-                    
-                        # 2. 加密文件名
                         path_id = base64.b64encode(safe_name.encode()).decode()
-                    
-                        # 3. 拼接真实链接 (⚠️记得把下面引号里的地址改成你浏览器地址栏里的真实网址⚠️)
-                        real_url = "https://tonelinkchinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
-                    
+                        # ⚠️ 注意：这里默认读取浏览器地址，或者你可以手动填你的 .streamlit.app 网址
+                        real_url = "https://tonelink-chinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
                         link = f"{real_url}?task_id={path_id}"
                         st.code(link, language="text")
-                        st.caption("复制上面的链接发给学生")
+                        st.caption("复制链接发给学生")
 
                 with c4:
-                    # 这个是核心按钮，用 Primary 样式 (深棕色)
                     if st.button("🚀 模拟打开", key=f"go_{filename}", type="primary"):
                         st.session_state.active_task_data = load_task_from_file(rel_path)
                         st.session_state.student_answers = {}
