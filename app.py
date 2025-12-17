@@ -1741,10 +1741,6 @@ if "task_id" in query_params and st.session_state.get('auto_jump') != True:
 # ==========================================
 if st.session_state.page == 'home': page_home()
 elif st.session_state.page == 'task_library': page_task_library()
-# ...
-
-if st.session_state.page == 'home': page_home()
-elif st.session_state.page == 'task_library': page_task_library()
 elif st.session_state.page == 'create': page_create()
 elif st.session_state.page == 'edit': page_edit()
 elif st.session_state.page == 'student_login': page_student_login()
