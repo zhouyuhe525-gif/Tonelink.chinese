@@ -1246,6 +1246,14 @@ def page_student_login():
         st.session_state.page = 'student_exam'; st.rerun()
 
 def page_student_exam():
+    # === 🟢 修复补丁：把全局 Key 拿过来用 ===
+    AZURE_SPEECH_KEY = MY_AZURE_KEY
+    AZURE_SPEECH_REGION = MY_AZURE_REGION
+    DEEPSEEK_API_KEY = MY_DEEPSEEK_KEY
+    # ======================================
+
+    task = st.session_state.active_task_data
+    # ... (后面的代码保持不变)
     task = st.session_state.active_task_data
     st.title(task.get('title'))
     enable_ai = st.toggle("🤖 AI", value=True)
