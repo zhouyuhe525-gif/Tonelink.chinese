@@ -173,73 +173,73 @@ def get_unread_count():
 unread = get_unread_count()
 review_label = f"{T('nav_review')} ({unread} 🔴)" if unread > 0 else T('nav_review')
 
-# --- 侧边栏 (修复通义千问输入框) ---
-with st.sidebar:
-    # 1. 注入侧边栏专属 CSS (美化保持不变)
-    st.markdown("""
-    <style>
-        section[data-testid="stSidebar"] { background-color: #F7F3F3; }
-        section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] h2, section[data-testid="stSidebar"] h3, section[data-testid="stSidebar"] p {
-            color: #5D4037 !important; font-family: "Kaiti SC", "KaiTi", serif;
-        }
-        section[data-testid="stSidebar"] .stButton > button {
-            width: 100%; border-radius: 12px !important; border: 1px solid #D7CCC8 !important;
-            background-color: #FFFFFF !important; color: #5D4037 !important; font-weight: bold;
-            font-family: "Kaiti SC", "KaiTi", serif !important; transition: all 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        section[data-testid="stSidebar"] .stButton > button:hover {
-            background-color: #EBCbcB !important; color: white !important;
-            border-color: #EBCbcB !important; padding-left: 20px !important; 
-        }
-        section[data-testid="stSidebar"] .streamlit-expanderHeader {
-            background-color: #FFFFFF !important; border-radius: 8px; color: #5D4037 !important; border: 1px solid #EFEBE9 !important;
-        }
-        section[data-testid="stSidebar"] .streamlit-expanderHeader svg, section[data-testid="stSidebar"] span[data-testid="stExpanderIcon"] { font-family: sans-serif !important; }
-    </style>
-    """, unsafe_allow_html=True)
+# --- 侧边栏 (已加锁：学生端不可见) ---
+# 定义哪些是老师的页面
+teacher_pages = ['home', 'task_library', 'create', 'edit', 'review_dashboard']
 
-    # 2. 侧边栏内容
-    st.header("🌐 Language / Язык")
-    st.session_state.lang = st.radio("Select Language", ["中文", "Русский"], label_visibility="collapsed")
-    
-    st.divider()
-    
-    st.header("🧠 AI 配置")
-    with st.expander("🔑 密钥设置", expanded=False):
-        AZURE_SPEECH_KEY = st.text_input("Azure Key", value=MY_AZURE_KEY, type="password") 
-        AZURE_SPEECH_REGION = st.text_input("Region", value=MY_AZURE_REGION)
-        st.markdown("---")
-        DEEPSEEK_API_KEY = st.text_input("DeepSeek Key (主)", value=MY_DEEPSEEK_KEY, type="password")
-        # ✅ 修复：补回通义千问输入框
-        QWEN_API_KEY = st.text_input("通义千问 Key (备)", value=MY_QWEN_KEY, type="password")
-        # 顺便把 Qwen Key 存入 Session，供全局调用
-        st.session_state.qwen_key_input = QWEN_API_KEY
-    
-    st.divider()
-    
-    st.subheader("📍 导航菜单")
-    # === 修改开始：加一个带边框的容器 ===
-    with st.container(border=True):
-        if st.button(f" {T('nav_create')}"): 
-            st.session_state.edit_data = {'title': '', 'modules': [], 'read': [], 'speak': [], 'listen': [], 'write': []}
-            st.session_state.page = 'create'; st.rerun()
-        if st.button(f" {T('nav_lib')}"): st.session_state.page = 'task_library'; st.rerun()
-        if st.button(review_label): st.session_state.page = 'review_dashboard'; st.rerun()
-    # === 修改结束 ===
-    
-    st.divider()
-    
-    with st.expander("⚠️ 危险区域"):
-        if st.checkbox(T("confirm_clear")):
-            if st.button(T("clear_data"), type="primary"): 
-                if os.path.exists("submissions"): shutil.rmtree("submissions")
-                if os.path.exists("tasks"): shutil.rmtree("tasks")
-                st.toast(T("cleared")); st.session_state.page = 'home'; st.rerun()
+# 只有当当前页面属于“老师页面”时，才加载侧边栏
+if st.session_state.page in teacher_pages:
+    with st.sidebar:
+        st.markdown("""
+        <style>
+            section[data-testid="stSidebar"] { background-color: #F7F3F3; }
+            section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] h2, section[data-testid="stSidebar"] h3, section[data-testid="stSidebar"] p {
+                color: #5D4037 !important; font-family: "Kaiti SC", "KaiTi", serif;
+            }
+            section[data-testid="stSidebar"] .stButton > button {
+                width: 100%; border-radius: 12px !important; border: 1px solid #D7CCC8 !important;
+                background-color: #FFFFFF !important; color: #5D4037 !important; font-weight: bold;
+                font-family: "Kaiti SC", "KaiTi", serif !important; transition: all 0.3s;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
+            section[data-testid="stSidebar"] .stButton > button:hover {
+                background-color: #EBCbcB !important; color: white !important;
+                border-color: #EBCbcB !important; padding-left: 20px !important; 
+            }
+            section[data-testid="stSidebar"] .streamlit-expanderHeader {
+                background-color: #FFFFFF !important; border-radius: 8px; color: #5D4037 !important; border: 1px solid #EFEBE9 !important;
+            }
+            section[data-testid="stSidebar"] .streamlit-expanderHeader svg, section[data-testid="stSidebar"] span[data-testid="stExpanderIcon"] { font-family: sans-serif !important; }
+        </style>
+        """, unsafe_allow_html=True)
 
-# ==========================================
-# 核心函数库
-# ==========================================
+        st.header("🌐 Language / Язык")
+        st.session_state.lang = st.radio("Select Language", ["中文", "Русский"], label_visibility="collapsed")
+        st.divider()
+        
+        st.header("🧠 AI 配置")
+        with st.expander("🔑 密钥设置", expanded=False):
+            # 只有老师能看到这里
+            st.caption("Key 已自动从云端加载")
+            AZURE_SPEECH_KEY = st.text_input("Azure Key", value=MY_AZURE_KEY, type="password") 
+            AZURE_SPEECH_REGION = st.text_input("Region", value=MY_AZURE_REGION)
+            st.markdown("---")
+            DEEPSEEK_API_KEY = st.text_input("DeepSeek Key (主)", value=MY_DEEPSEEK_KEY, type="password")
+            QWEN_API_KEY = st.text_input("通义千问 Key (备)", value=MY_QWEN_KEY, type="password")
+            st.session_state.qwen_key_input = QWEN_API_KEY
+        
+        st.divider()
+        
+        st.subheader("📍 导航菜单")
+        with st.container(border=True):
+            if st.button(f" {T('nav_create')}"): 
+                st.session_state.edit_data = {'title': '', 'modules': [], 'read': [], 'speak': [], 'listen': [], 'write': []}
+                st.session_state.page = 'create'; st.rerun()
+            if st.button(f" {T('nav_lib')}"): st.session_state.page = 'task_library'; st.rerun()
+            if st.button(review_label): st.session_state.page = 'review_dashboard'; st.rerun()
+        
+        st.divider()
+        
+        with st.expander("⚠️ 危险区域"):
+            if st.checkbox(T("confirm_clear")):
+                if st.button(T("clear_data"), type="primary"): 
+                    if os.path.exists("submissions"): shutil.rmtree("submissions")
+                    if os.path.exists("tasks"): shutil.rmtree("tasks")
+                    st.toast(T("cleared")); st.session_state.page = 'home'; st.rerun()
+else:
+    # 这里的 else 属于学生页面
+    # 我们可以稍微隐藏一下侧边栏的图标，或者什么都不做，侧边栏就是空的
+    pass
 
 def get_tts_audio(text):
     if not text: return None
