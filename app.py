@@ -745,18 +745,18 @@ def page_task_library():
 
                 with c3:
                     if st.button(T("btn_link"), key=f"lnk_{filename}"):
-                    # 1. 获取文件名
-                    safe_name = filename  
+                        # 1. 获取文件名
+                        safe_name = filename  
                     
-                    # 2. 加密文件名
-                    path_id = base64.b64encode(safe_name.encode()).decode()
+                        # 2. 加密文件名
+                        path_id = base64.b64encode(safe_name.encode()).decode()
                     
-                    # 3. 拼接真实链接 (⚠️记得把下面引号里的地址改成你浏览器地址栏里的真实网址⚠️)
-                    real_url = "https://tonelink-chinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
+                        # 3. 拼接真实链接 (⚠️记得把下面引号里的地址改成你浏览器地址栏里的真实网址⚠️)
+                        real_url = "https://tonelink-chinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
                     
-                    link = f"{real_url}?task_id={path_id}"
-                    st.code(link, language="text")
-                    st.caption("复制上面的链接发给学生")
+                        link = f"{real_url}?task_id={path_id}"
+                        st.code(link, language="text")
+                        st.caption("复制上面的链接发给学生")
 
                 with c4:
                     # 这个是核心按钮，用 Primary 样式 (深棕色)
