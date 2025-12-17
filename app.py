@@ -584,71 +584,27 @@ def page_home():
     st.info("👈 Please select options from sidebar / Пожалуйста, выберите опции на боковой панели")
 
 def page_task_library():
-    # --- 1. 注入莫兰迪风格 CSS (专门针对任务库) ---
+    # --- 1. 注入莫兰迪风格 CSS ---
     st.markdown("""
     <style>
-        /* 全局背景 */
         .stApp { background-color: #FAF9F6; }
-
-        /* 标题：深棕色楷体 */
-        h1, h2, h3 {
-            color: #8D6E63 !important;
-            font-family: "Kaiti SC", "KaiTi", serif;
-        }
-        
-        /* 通用按钮样式 (次要操作) */
+        h1, h2, h3 { color: #8D6E63 !important; font-family: "Kaiti SC", "KaiTi", serif; }
+        /* 按钮样式 */
         div.stButton > button[kind="secondary"] {
-            background-color: #F9EBEB !important; 
-            border: 1px solid #D7CCC8 !important; 
-            color: #5D4037 !important;            
-            border-radius: 12px !important;       
-            font-size: 15px !important;
-            height: auto !important;
-            padding: 8px 15px !important;
-            transition: all 0.2s;
+            background-color: #F9EBEB !important; border: 1px solid #D7CCC8 !important; color: #5D4037 !important; border-radius: 12px !important;
         }
-        div.stButton > button[kind="secondary"]:hover {
-            background-color: #EBCbcB !important;
-            border-color: #8D6E63 !important;
-            transform: translateY(-2px);
-        }
-
-        /* 核心按钮样式 (主要操作) */
         div.stButton > button[kind="primary"] {
-            background-color: #8D6E63 !important; 
-            color: white !important;
-            border: none !important;
-            border-radius: 12px !important;
-            font-weight: bold !important;
-            box-shadow: 0 2px 5px rgba(141, 110, 99, 0.3);
+            background-color: #8D6E63 !important; color: white !important; border: none !important; border-radius: 12px !important;
         }
-        div.stButton > button[kind="primary"]:hover {
-            background-color: #6D4C41 !important;
-        }
-
-        /* 输入框美化 */
-        div[data-testid="stTextInput"] input {
-            background-color: #FFF !important;
-            border: 1px solid #D7CCC8 !important;
-            border-radius: 8px !important;
-            color: #5D4037 !important;
-        }
-        
-        /* Expander (折叠框) 样式 */
-        .streamlit-expanderHeader {
-            background-color: #FDF6F6 !important;
-            border-radius: 8px !important;
-            color: #5D4037 !important;
-            border: 1px solid #EFEBE9 !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+        /* 输入框和Expander */
+        div[data-testid="stTextInput"] input { background-color: #FFF !important; border: 1px solid #D7CCC8 !important; border-radius: 8px !important; }
+        .streamlit-expanderHeader { background-color: #FDF6F6 !important; border-radius: 8px !important; border: 1px solid #EFEBE9 !important; }
+    </style>""", unsafe_allow_html=True)
 
     st.title(T("nav_lib"))
     
-    # 1. 状态管理：记录当前在哪个文件夹里
+    # 状态初始化
     if 'current_folder' not in st.session_state: st.session_state.current_folder = ""
-    
     base_root = "tasks"
     current_path = os.path.join(base_root, st.session_state.current_folder)
     if not os.path.exists(current_path): os.makedirs(current_path)
@@ -656,29 +612,23 @@ def page_task_library():
     # --- 顶部工具栏 ---
     col_tools, col_nav = st.columns([1, 2])
     
-    # 左边：新建文件夹
     with col_tools:
+        # 使用 popover + form，Key 更新为 v2024 防止冲突
         with st.popover("➕📂 新建文件夹"):
-            # 使用 Form 彻底隔离 Key 冲突，名字设为 create_folder_v_final_1
-            with st.form("create_folder_v_final_1", clear_on_submit=True):
+            with st.form("new_folder_form_v2024", clear_on_submit=True):
                 new_folder = st.text_input("文件夹名称")
-                submitted = st.form_submit_button("创建", type="primary")
-                
-                if submitted and new_folder:
-                    target_path = os.path.join(current_path, new_folder)
-                    if not os.path.exists(target_path):
-                        os.makedirs(target_path, exist_ok=True)
-                        st.success(f"已创建: {new_folder}")
-                        st.rerun()
+                if st.form_submit_button("创建", type="primary"):
+                    target = os.path.join(current_path, new_folder)
+                    if not os.path.exists(target):
+                        os.makedirs(target, exist_ok=True)
+                        st.success("已创建"); st.rerun()
                     else:
-                        st.warning("文件夹已存在")
-    
-    # 右边：导航路径
+                        st.warning("已存在")
+
     with col_nav:
         if st.session_state.current_folder:
             if st.button("🔙 返回上一级", key="btn_back_folder"):
-                parent = os.path.dirname(st.session_state.current_folder)
-                st.session_state.current_folder = parent
+                st.session_state.current_folder = os.path.dirname(st.session_state.current_folder)
                 st.rerun()
             st.caption(f"当前路径: 📂 {st.session_state.current_folder}")
         else:
@@ -686,49 +636,40 @@ def page_task_library():
 
     st.divider()
 
-    # --- 读取内容 ---
-    try:
-        items = os.listdir(current_path)
+    # --- 读取文件列表 ---
+    try: items = os.listdir(current_path)
     except: items = []
-
     dirs = [d for d in items if os.path.isdir(os.path.join(current_path, d))]
     files = [f for f in items if f.endswith(".json")]
 
-    # 2. 显示文件夹
+    # 显示文件夹
     if dirs:
         st.subheader("📁 文件夹")
         cols = st.columns(4)
         for i, d in enumerate(dirs):
             with cols[i % 4]:
                 if st.button(f"📂 {d}", key=f"dir_{d}", use_container_width=True):
-                    if st.session_state.current_folder:
-                        st.session_state.current_folder = os.path.join(st.session_state.current_folder, d)
-                    else:
-                        st.session_state.current_folder = d
+                    st.session_state.current_folder = os.path.join(st.session_state.current_folder, d)
                     st.rerun()
 
-    # 3. 显示任务文件
+    # 显示任务文件
     if files:
         st.subheader("📄 任务列表")
         for filename in files:
             rel_path = os.path.join(st.session_state.current_folder, filename)
             
             with st.expander(f"📄 {filename.replace('.json', '')}", expanded=False):
-                
-                # --- 第一行：重命名 ---
+                # 重命名行
                 c_name, c_save = st.columns([3, 1])
                 with c_name:
                     new_name = st.text_input("重命名", value=filename.replace(".json",""), key=f"rn_{filename}", label_visibility="collapsed")
                 with c_save:
                     if st.button("保存名", key=f"sn_{filename}"):
-                        src = os.path.join(current_path, filename)
-                        dst = os.path.join(current_path, f"{new_name}.json")
-                        os.rename(src, dst)
+                        os.rename(os.path.join(current_path, filename), os.path.join(current_path, f"{new_name}.json"))
                         st.success("已更新"); st.rerun()
                 
-                st.write("") 
-
-                # --- 第二行：功能按钮矩阵 ---
+                st.write("")
+                # 功能按钮行
                 c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.2, 0.8])
                 
                 with c1:
@@ -736,53 +677,31 @@ def page_task_library():
                         st.session_state.edit_data = load_task_from_file(rel_path)
                         st.session_state.edit_filename = rel_path
                         st.session_state.page = 'edit'; st.rerun()
-
                 with c2:
                     if st.button("📋 复制", key=f"cp_{filename}"):
                         data = load_task_from_file(rel_path)
-                        new_title = f"{data['title']}_copy"
-                        data['title'] = new_title
-                        save_path = os.path.join(st.session_state.current_folder, f"{new_title}.json")
-                        save_task_to_file(data, save_path)
-                        st.success(f"已复制"); st.rerun()
-
+                        save_task_to_file(data, os.path.join(st.session_state.current_folder, f"{data['title']}_copy.json"))
+                        st.success("已复制"); st.rerun()
                 with c3:
                     if st.button(T("btn_link"), key=f"lnk_{filename}"):
-                        safe_name = filename  
+                        # === 🔗 链接生成逻辑 (已填入你的真实网址) ===
+                        safe_name = filename
                         path_id = base64.b64encode(safe_name.encode()).decode()
-                        # ⚠️ 这里填的是你刚才截图里的真实网址
-                        real_url = "https://github.com/zhouyuhe525-gif/Tonelink.chinese/edit/main/app" 
+                        
+                        # ✅ 这里填入了你的真实网址
+                        real_url = "https://tonelinkchinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
+                        
                         link = f"{real_url}?task_id={path_id}"
                         st.code(link, language="text")
-                        st.caption("复制上面的链接发给学生")
-
+                        st.caption("复制上方链接发给学生")
                 with c4:
                     if st.button("🚀 模拟打开", key=f"go_{filename}", type="primary"):
                         st.session_state.active_task_data = load_task_from_file(rel_path)
                         st.session_state.student_answers = {}
                         st.session_state.page = 'student_login'; st.rerun()
-
                 with c5:
                     if st.button("🗑️", key=f"del_{filename}"):
                         os.remove(os.path.join(current_path, filename)); st.rerun()
-                
-                # --- 第三行：移动功能 ---
-                st.markdown("---")
-                all_folders = ["(根目录)"] + [d for d in os.listdir(base_root) if os.path.isdir(os.path.join(base_root, d))]
-                current_dir_name = os.path.basename(st.session_state.current_folder) if st.session_state.current_folder else "(根目录)"
-                move_options = [f for f in all_folders if f != current_dir_name]
-                
-                if move_options:
-                    c_move_1, c_move_2 = st.columns([3, 1])
-                    with c_move_1:
-                        target_folder = st.selectbox("移动到...", move_options, key=f"mv_sel_{filename}", label_visibility="collapsed")
-                    with c_move_2:
-                        if st.button("确认移动", key=f"mv_btn_{filename}"):
-                            src_path = os.path.join(current_path, filename)
-                            if target_folder == "(根目录)": dst_path = os.path.join(base_root, filename)
-                            else: dst_path = os.path.join(base_root, target_folder, filename)
-                            shutil.move(src_path, dst_path)
-                            st.toast(f"已移动"); st.rerun()
     
     if not dirs and not files:
         st.info("此文件夹为空")
