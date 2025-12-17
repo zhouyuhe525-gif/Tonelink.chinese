@@ -1,0 +1,140 @@
+{
+    "title": "云端储存测试",
+    "modules": [
+        "read",
+        "speak",
+        "listen",
+        "write"
+    ],
+    "read": [
+        "电影",
+        "明天",
+        "我今天在家吃饭。",
+        "我在家买东西。"
+    ],
+    "speak": [
+        {
+            "type": "翻译题",
+            "content": "Куда он пошел？",
+            "ref": "",
+            "raw_type": "翻译题"
+        },
+        {
+            "type": "翻译题",
+            "content": "Как тебя зовут?",
+            "ref": "",
+            "raw_type": "翻译题"
+        },
+        {
+            "type": "翻译题",
+            "content": "От куда ты?",
+            "ref": "",
+            "raw_type": "翻译题"
+        },
+        {
+            "type": "问答题",
+            "content": "今天天气怎么样？",
+            "ref": "",
+            "tts_file": "tts_f334af875b702e818f869e06523ec4e2.mp3",
+            "raw_type": "问答题"
+        },
+        {
+            "type": "问答题",
+            "content": "你喜欢吃什么水果？",
+            "ref": "",
+            "tts_file": "tts_75a648acc946aea0d5609253b0c8d3d4.mp3",
+            "raw_type": "问答题"
+        },
+        {
+            "type": "作文题",
+            "content": "说一说你的周末。",
+            "ref": "",
+            "raw_type": "作文题"
+        }
+    ],
+    "listen": [
+        {
+            "type": "复述",
+            "content": "这是我的老师。",
+            "tts": "tts_e5cd77fa1b4baca4b0fa186482e3615c.mp3",
+            "raw_type": "复述"
+        },
+        {
+            "type": "复述",
+            "content": "这是我的朋友。",
+            "tts": "tts_eb45b1b3e9a6989d86871183339b1a9e.mp3",
+            "raw_type": "复述"
+        },
+        {
+            "type": "复述",
+            "content": "我去商店买东西。",
+            "tts": "tts_4aecc27ee1cf5dbda08a40ebfa74a3ce.mp3",
+            "raw_type": "复述"
+        },
+        {
+            "type": "问答",
+            "content": "你住在哪儿？",
+            "tts": "tts_a1c7856e74a93100c3926a2c0f814a00.mp3",
+            "raw_type": "问答"
+        },
+        {
+            "type": "问答",
+            "content": "你今天怎么样？",
+            "tts": "tts_9a3699bdfdf0d9070ec86a235b6a440e.mp3",
+            "raw_type": "问答"
+        },
+        {
+            "type": "填空",
+            "content": "她长得很 （漂亮）。",
+            "tts": "tts_a8ff89edf14b6e3b9b1fca60d25a965a.mp3",
+            "raw_type": "填空",
+            "display": "她长得很 （______）。",
+            "correct": "漂亮",
+            "options": [
+                "漂亮",
+                "干扰项"
+            ]
+        },
+        {
+            "type": "填空",
+            "content": "我（最）喜欢秋天。",
+            "tts": "tts_ac6cd5617e2bc7dd2dcd8a480c360652.mp3",
+            "raw_type": "填空",
+            "display": "我（______）喜欢秋天。",
+            "correct": "最",
+            "options": [
+                "最",
+                "干扰项"
+            ]
+        },
+        {
+            "type": "辨调",
+            "content": "可爱",
+            "tts": "tts_c8ea8eb5d7a4b6df0a92a862c5133976.mp3",
+            "raw_type": "辨调",
+            "text": "可爱",
+            "options": [
+                "kě ǎi",
+                "kě ài",
+                "kě ái",
+                "ké ái"
+            ],
+            "correct": "kě ài"
+        },
+        {
+            "type": "辨调",
+            "content": "女儿",
+            "tts": "tts_b62d330b5ae5395834f0f60a2eb45d97.mp3",
+            "raw_type": "辨调",
+            "text": "女儿",
+            "options": [
+                "nv ēr",
+                "nǚ ér",
+                "nv ér",
+                "nv èr"
+            ],
+            "correct": "nǚ ér"
+        }
+    ],
+    "write": []
+}
