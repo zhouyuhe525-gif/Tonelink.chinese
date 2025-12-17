@@ -752,7 +752,7 @@ def page_task_library():
                         path_id = base64.b64encode(safe_name.encode()).decode()
                     
                         # 3. 拼接真实链接 (⚠️记得把下面引号里的地址改成你浏览器地址栏里的真实网址⚠️)
-                        real_url = "https://tonelink-chinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
+                        real_url = "https://tonelinkchinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
                     
                         link = f"{real_url}?task_id={path_id}"
                         st.code(link, language="text")
