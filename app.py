@@ -662,12 +662,19 @@ def page_task_library():
     col_tools, col_nav = st.columns([1, 2])
     with col_tools:
         with st.popover("➕📂 新建文件夹"):
-           new_folder = st.text_input("文件夹名称", key="create_folder_final_v999")
-           if st.button("创建", type="primary"):
-                if new_folder:
-                    os.makedirs(os.path.join(current_path, new_folder), exist_ok=True)
-                    st.success("已创建")
-                    st.rerun()
+            # 使用 Form 表单，彻底隔离 Key 冲突！
+            with st.form("new_folder_form", clear_on_submit=True):
+                new_folder = st.text_input("文件夹名称")
+                submitted = st.form_submit_button("创建", type="primary")
+                
+                if submitted and new_folder:
+                    target_path = os.path.join(current_path, new_folder)
+                    if not os.path.exists(target_path):
+                        os.makedirs(target_path, exist_ok=True)
+                        st.success(f"已创建: {new_folder}")
+                        st.rerun()
+                    else:
+                        st.warning("文件夹已存在")
     
     with col_nav:
         if st.session_state.current_folder:
