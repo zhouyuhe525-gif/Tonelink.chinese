@@ -702,6 +702,24 @@ def page_task_library():
                 with c5:
                     if st.button("🗑️", key=f"del_{filename}"):
                         os.remove(os.path.join(current_path, filename)); st.rerun()
+                
+                # --- 补丁：移动功能 ---
+                st.markdown("---")
+                all_folders = ["(根目录)"] + [d for d in os.listdir(base_root) if os.path.isdir(os.path.join(base_root, d))]
+                
+                c_move_1, c_move_2 = st.columns([3, 1])
+                with c_move_1:
+                    target_folder = st.selectbox("移动到...", all_folders, key=f"mv_sel_{filename}", label_visibility="collapsed")
+                with c_move_2:
+                    if st.button("确认移动", key=f"mv_btn_{filename}"):
+                        src_path = os.path.join(current_path, filename)
+                        if target_folder == "(根目录)": dst_path = os.path.join(base_root, filename)
+                        else: dst_path = os.path.join(base_root, target_folder, filename)
+                        
+                        if src_path != dst_path:
+                            shutil.move(src_path, dst_path)
+                            st.toast(f"已移动到 {target_folder}")
+                            st.rerun()
     
     if not dirs and not files:
         st.info("此文件夹为空")
