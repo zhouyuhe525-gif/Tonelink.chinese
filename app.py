@@ -178,7 +178,7 @@ review_label = f"{T('nav_review')} ({unread} 🔴)" if unread > 0 else T('nav_re
 teacher_pages = ['home', 'task_library', 'create', 'edit', 'review_dashboard']
 
 # 只有当当前页面属于“老师页面”时，才加载侧边栏
-if st.session_state.page in teacher_pages:
+if st.session_state.page in teacher_pages and "task_id" not in st.query_params:
     with st.sidebar:
         st.markdown("""
         <style>
@@ -1734,33 +1734,43 @@ def page_review_dashboard():
 # 🔗 核心逻辑：检查网址链接，自动跳转
 # ==========================================
 # 获取网址栏参数
+# 🔗 自动跳转逻辑 (安全增强版)
 try:
     query_params = st.query_params
 except:
-    query_params = {} # 兼容旧版
+    query_params = {}
 
-if "task_id" in query_params and st.session_state.get('auto_jump') != True:
-    try:
-        # 1. 解码任务文件名
-        b64_id = query_params["task_id"]
-        if isinstance(b64_id, list): b64_id = b64_id[0] # 防止列表
-        
-        task_filename = base64.b64decode(b64_id).decode()
-        
-        # 2. 尝试加载任务
-        task_data = load_task_from_file(task_filename)
-        
-        if task_data:
-            # 3. 设置状态，直接跳到学生登录或考试页
-            st.session_state.active_task_data = task_data
-            st.session_state.student_answers = {}
-            st.session_state.page = 'student_login' # 或者直接跳 'student_exam'
-            st.session_state.auto_jump = True # 防止死循环刷新
-            st.rerun() # 强制刷新页面进入
-        else:
-            st.error(f"未找到任务文件: {task_filename}")
-    except Exception as e:
-        st.error(f"链接无效: {e}")
+# 只要发现是学生链接
+if "task_id" in query_params:
+    # 1. 如果已经跳转成功，就不再重复执行
+    if st.session_state.get('auto_jump'):
+        pass 
+    else:
+        try:
+            b64_id = query_params["task_id"]
+            if isinstance(b64_id, list): b64_id = b64_id[0]
+            
+            task_filename = base64.b64decode(b64_id).decode()
+            task_data = load_task_from_file(task_filename)
+            
+            if task_data:
+                # 成功加载：进入学生页面
+                st.session_state.active_task_data = task_data
+                st.session_state.student_answers = {}
+                st.session_state.page = 'student_login'
+                st.session_state.auto_jump = True
+                st.rerun()
+            else:
+                # 🛑 防盗门在这里！
+                # 如果没找到文件 (task_data 是空的)
+                st.error("⚠️ 作业已过期或未找到 / Task not found")
+                st.warning("请联系老师重新发送 / Please contact your teacher")
+                st.stop() # <--- 强制停车！禁止往下运行！
+                
+        except Exception as e:
+            # 🛑 另一道防盗门：链接坏了也停车
+            st.error(f"⚠️ 链接无效 / Invalid Link")
+            st.stop() # <--- 强制停车！
 
 # ==========================================
 # 下面是你原本的页面路由代码 (保持不变)
