@@ -43,12 +43,22 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 🔑 用户配置区 (请填入密钥)
+# 🔑 用户配置区 (自动适配本地和云端)
 # ==========================================
-MY_AZURE_KEY = "" 
-MY_AZURE_REGION = "eastasia"
-MY_DEEPSEEK_KEY = "" 
-MY_QWEN_KEY = "" # 阿里通义千问 Key
+import os
+
+# 尝试从 Streamlit Secrets 读取
+try:
+    MY_AZURE_KEY = st.secrets["AZURE_SPEECH_KEY"]
+    MY_AZURE_REGION = st.secrets["AZURE_SPEECH_REGION"]
+    MY_DEEPSEEK_KEY = st.secrets["DEEPSEEK_API_KEY"]
+    MY_QWEN_KEY = st.secrets["QWEN_API_KEY"]
+except:
+    # 如果读取失败（比如在本地没配置），就留空，等待用户手动填
+    MY_AZURE_KEY = "" 
+    MY_AZURE_REGION = "eastasia"
+    MY_DEEPSEEK_KEY = "" 
+    MY_QWEN_KEY = ""
 # ==========================================
 
 # --- 🌍 国际化字典 ---
