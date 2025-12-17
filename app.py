@@ -751,7 +751,7 @@ def page_task_library():
                         safe_name = filename  
                         path_id = base64.b64encode(safe_name.encode()).decode()
                         # ⚠️ 这里填的是你刚才截图里的真实网址
-                        real_url = "https://tonelink-chinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
+                        real_url = "https://github.com/zhouyuhe525-gif/Tonelink.chinese/edit/main/app" 
                         link = f"{real_url}?task_id={path_id}"
                         st.code(link, language="text")
                         st.caption("复制上面的链接发给学生")
