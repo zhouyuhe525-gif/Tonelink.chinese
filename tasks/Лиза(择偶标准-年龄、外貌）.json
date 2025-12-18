@@ -1,0 +1,116 @@
+{
+    "title": "",
+    "modules": [
+        "write"
+    ],
+    "read": [],
+    "speak": [],
+    "listen": [],
+    "write": [
+        {
+            "hanzi": "幼稚",
+            "pinyin": "yòuzhì",
+            "russian": "детский, незрелый"
+        },
+        {
+            "hanzi": "成熟",
+            "pinyin": "chéngshú",
+            "russian": "зрелый"
+        },
+        {
+            "hanzi": "年龄差",
+            "pinyin": "niánlíng chā",
+            "russian": "разница в возрасте"
+        },
+        {
+            "hanzi": "情侣",
+            "pinyin": "qínglǚ",
+            "russian": "пара, влюбленные"
+        },
+        {
+            "hanzi": "负责",
+            "pinyin": "fùzé",
+            "russian": "ответственный"
+        },
+        {
+            "hanzi": "在意",
+            "pinyin": "zàiyì",
+            "russian": "обращать внимание，придавать значение"
+        },
+        {
+            "hanzi": "看重",
+            "pinyin": "kànzhòng",
+            "russian": "ценить, придавать большое значение"
+        },
+        {
+            "hanzi": "吵架",
+            "pinyin": "chǎojià",
+            "russian": "ссориться"
+        },
+        {
+            "hanzi": "外貌",
+            "pinyin": "wàimào",
+            "russian": "внешность"
+        },
+        {
+            "hanzi": "身材",
+            "pinyin": "shēncái",
+            "russian": "фигура, телосложение"
+        },
+        {
+            "hanzi": "焦虑",
+            "pinyin": "jiāolǜ",
+            "russian": "тревога, беспокойство"
+        },
+        {
+            "hanzi": "自卑",
+            "pinyin": "zìbēi",
+            "russian": "комплекс неполноценности, стеснение"
+        },
+        {
+            "hanzi": "肌肉",
+            "pinyin": "jīròu",
+            "russian": "мышцы"
+        },
+        {
+            "hanzi": "腹肌",
+            "pinyin": "fùjī",
+            "russian": "пресс, мышцы живота"
+        },
+        {
+            "hanzi": "特点",
+            "pinyin": "tèdiǎn",
+            "russian": "особенность, черта"
+        },
+        {
+            "hanzi": "整容",
+            "pinyin": "zhěngróng",
+            "russian": "пластическая операция"
+        },
+        {
+            "hanzi": "审美",
+            "pinyin": "shěnměi",
+            "russian": "эстетическое восприятие, вкус"
+        },
+        {
+            "hanzi": "无所谓",
+            "pinyin": "wúsuǒwèi",
+            "russian": "все равно, безразлично"
+        },
+        {
+            "hanzi": "强壮",
+            "pinyin": "qiángzhuàng",
+            "russian": "сильный, крепкий"
+        },
+        {
+            "hanzi": "看法",
+            "pinyin": "kànfǎ",
+            "russian": "мнение, взгляд"
+        },
+        {
+            "hanzi": "阳光",
+            "pinyin": "yángguāng",
+            "russian": "солнечный, позитивный"
+        }
+    ]
+}
