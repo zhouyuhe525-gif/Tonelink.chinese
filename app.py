@@ -759,7 +759,7 @@ def page_task_library():
                     if st.button(T("btn_link"), key=f"lnk_{filename}"):
                         # === 🔗 链接生成逻辑 (已填入你的真实网址) ===
                         safe_name = filename
-                        path_id = base64.b64encode(safe_name.encode()).decode()
+                        path_id = base64.urlsafe_b64encode(safe_name.encode()).decode()
                         
                         # ✅ 这里填入了你的真实网址
                         real_url = "https://tonelinkchinese-advycn5ngqvo5cqr3ercor.streamlit.app" 
@@ -1823,7 +1823,7 @@ if "task_id" in query_params:
             b64_id = query_params["task_id"]
             if isinstance(b64_id, list): b64_id = b64_id[0]
             
-            task_filename = base64.b64decode(b64_id).decode()
+            task_filename = base64.urlsafe_b64decode(b64_id).decode()
             task_data = load_task_from_file(task_filename)
             
             if task_data:
