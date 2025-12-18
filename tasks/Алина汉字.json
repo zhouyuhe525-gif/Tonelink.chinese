@@ -1,0 +1,61 @@
+{
+    "title": "Алина汉字",
+    "modules": [
+        "write"
+    ],
+    "read": [],
+    "speak": [],
+    "listen": [],
+    "write": [
+        {
+            "hanzi": "机场",
+            "pinyin": "jīchǎng",
+            "russian": "аэропорт"
+        },
+        {
+            "hanzi": "路",
+            "pinyin": "lù",
+            "russian": "дорога, путь"
+        },
+        {
+            "hanzi": "到",
+            "pinyin": "dào",
+            "russian": "прибывать, достигать"
+        },
+        {
+            "hanzi": "离",
+            "pinyin": "lí",
+            "russian": "быть на расстоянии от"
+        },
+        {
+            "hanzi": "远",
+            "pinyin": "yuǎn",
+            "russian": "далёкий"
+        },
+        {
+            "hanzi": "公司",
+            "pinyin": "gōngsī",
+            "russian": "компания, фирма"
+        },
+        {
+            "hanzi": "小时",
+            "pinyin": "xiǎoshí",
+            "russian": "час"
+        },
+        {
+            "hanzi": "过",
+            "pinyin": "guò",
+            "russian": "проходить, пересекать"
+        },
+        {
+            "hanzi": "走",
+            "pinyin": "zǒu",
+            "russian": "идти, уходить"
+        },
+        {
+            "hanzi": "就",
+            "pinyin": "jiù",
+            "russian": "именно, тогда как"
+        }
+    ]
+}
