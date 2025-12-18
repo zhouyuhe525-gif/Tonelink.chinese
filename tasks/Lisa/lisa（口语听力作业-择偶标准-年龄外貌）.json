@@ -1,8 +1,8 @@
 {
-    "title": "Lisa（口语听力-择偶标准1）",
+    "title": "Lisa口语听力作业（择偶标准1、2）",
     "modules": [
-        "listen",
         "speak",
+        "listen",
         "read",
         "write"
     ],
