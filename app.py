@@ -530,28 +530,51 @@ def save_submission(student_name, task_title):
     base_dir = "submissions"; task_dir = os.path.join(base_dir, task_title); student_dir = os.path.join(task_dir, student_name)
     if not os.path.exists(student_dir): os.makedirs(student_dir)
     summary_data = []
+    
     for key_id, data in st.session_state.student_answers.items():
         audio_file = ""; img_file = ""
+        
+        # 1. 处理音频
         if data.get('audio') and len(data['audio']) > 0:
             audio_file = f"{key_id}.wav"
+            local_audio_path = os.path.join(student_dir, audio_file)
             try:
-                with open(os.path.join(student_dir, audio_file), "wb") as f: f.write(data['audio'])
+                with open(local_audio_path, "wb") as f: f.write(data['audio'])
+                # 🟢 同步音频到 GitHub
+                if MY_GITHUB_TOKEN:
+                    sync_file_to_github(local_audio_path, data['audio'], f"Sub: {student_name} - {audio_file}")
             except: pass
+
+        # 2. 处理图片
         if data.get('image_upload'):
             img_file = f"{key_id}.jpg"
+            local_img_path = os.path.join(student_dir, img_file)
             try:
-                with open(os.path.join(student_dir, img_file), "wb") as f: f.write(data['image_upload'].getbuffer())
+                img_bytes = data['image_upload'].getbuffer()
+                with open(local_img_path, "wb") as f: f.write(img_bytes)
+                # 🟢 同步图片到 GitHub
+                if MY_GITHUB_TOKEN:
+                    sync_file_to_github(local_img_path, img_bytes, f"Sub: {student_name} - {img_file}")
             except: pass
+
         summary_data.append({
             "ID": key_id, "类型": data.get('type', '未知'), "题目": data.get('question_preview', ''),
             "学生答案": data.get('student_text_input', ''), "识别文本": data.get('transcribed_text', ''),
             "AI评语": data.get('ai_comment', ''), "教师评语": "", "得分": data.get('score', 0), 
             "音频": audio_file, "图片": img_file, "状态": "未批改", "时间": datetime.now().strftime("%Y-%m-%d %H:%M")
         })
-    pd.DataFrame(summary_data).to_csv(os.path.join(student_dir, "report.csv"), index=False)
-    # 🟢 同步 CSV 到 GitHub
+    
+    # 3. 生成 CSV (必须先生成 dataframe 和 path，后面才能上传！)
+    csv_path = os.path.join(student_dir, "report.csv")
+    df = pd.DataFrame(summary_data)
+    df.to_csv(csv_path, index=False)
+    
+    # 4. 🟢 最后再同步 CSV 到 GitHub (这时候 csv_path 和 df 都有了，就不会报错了)
     if MY_GITHUB_TOKEN:
-        sync_file_to_github(csv_path, df.to_csv(index=False).encode('utf-8'), f"Report: {student_name}")
+        try:
+            sync_file_to_github(csv_path, df.to_csv(index=False).encode('utf-8'), f"Report: {student_name}")
+        except: pass
+        
     return True
 
 def generate_workbook_html(task_title, word_list):
