@@ -22,7 +22,7 @@ import re  # <--- 新增这一行
 from github import Github, GithubException # 引入 GitHub 工具
 
 # --- 页面配置 ---
-st.set_page_config(page_title="ToneLink V45", page_icon="🎨", layout="wide")
+st.set_page_config(page_title="ToneLink V45", page_icon="logo222.png", layout="wide")
 
 # ==========================================
 # 🎨 1. 找回 CSS 美化 (色块样式)
