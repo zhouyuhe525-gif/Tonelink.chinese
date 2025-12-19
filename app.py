@@ -754,15 +754,40 @@ def page_task_library():
     dirs = [d for d in items if os.path.isdir(os.path.join(current_path, d))]
     files = [f for f in items if f.endswith(".json")]
 
-    # 显示文件夹
+    # 显示文件夹 (升级版：带管理菜单)
     if dirs:
         st.subheader("📁 文件夹")
         cols = st.columns(4)
         for i, d in enumerate(dirs):
             with cols[i % 4]:
-                if st.button(f"📂 {d}", key=f"dir_{d}", use_container_width=True):
-                    st.session_state.current_folder = os.path.join(st.session_state.current_folder, d)
-                    st.rerun()
+                # 使用 Popover 弹出菜单，点击文件夹图标展开选项
+                with st.popover(f"📂 {d}", use_container_width=True):
+                    # 1. 进入按钮
+                    if st.button("🚀 进入文件夹", key=f"ent_{d}", type="primary", use_container_width=True):
+                        st.session_state.current_folder = os.path.join(st.session_state.current_folder, d)
+                        st.rerun()
+                    
+                    st.markdown("---")
+                    
+                    # 2. 重命名
+                    new_d = st.text_input("重命名", d, key=f"rnd_{d}")
+                    if new_d != d:
+                         if st.button("确认修改", key=f"cf_rn_{d}"):
+                             try:
+                                 os.rename(os.path.join(current_path, d), os.path.join(current_path, new_d))
+                                 st.success("已修改")
+                                 st.rerun()
+                             except Exception as e:
+                                 st.error(f"修改失败: {e}")
+                    
+                    # 3. 删除
+                    if st.button("🗑️ 删除文件夹", key=f"del_dir_{d}", use_container_width=True):
+                        try:
+                            shutil.rmtree(os.path.join(current_path, d))
+                            st.toast("文件夹已删除")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"删除失败: {e}")
 
     # 显示任务文件
     if files:
