@@ -1872,51 +1872,74 @@ def page_review_dashboard():
 # 🔗 核心逻辑：检查网址链接，自动跳转
 # ==========================================
 # 获取网址栏参数
-# 🔗 自动跳转逻辑 (安全增强版)
-try:
-    query_params = st.query_params
-except:
-    query_params = {}
+# ==========================================
+# 🚪 安全门禁系统
+# ==========================================
 
-# 只要发现是学生链接
+# 1. 简易登录页面函数
+def page_teacher_login():
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    c1, c2, c3 = st.columns([1, 2, 1])
+    with c2:
+        with st.container(border=True):
+            st.markdown("<h2 style='text-align: center;'>🔒 教师后台登录</h2>", unsafe_allow_html=True)
+            pwd = st.text_input("请输入管理员密码", type="password", key="login_pwd")
+            if st.button("登录", type="primary", use_container_width=True):
+                # 从 Secrets 获取密码，如果没设置，默认是 123456
+                correct_pwd = st.secrets.get("TEACHER_PASSWORD", "123456")
+                if pwd == correct_pwd:
+                    st.session_state.is_logged_in = True
+                    st.rerun()
+                else:
+                    st.error("❌ 密码错误")
+
+# 2. 获取网址参数
+try: query_params = st.query_params
+except: query_params = {}
+
+# ==========================================
+# 🚦 核心路由逻辑 (红绿灯)
+# ==========================================
+
+# 情况 A: 学生带着作业 ID 进来 -> 直接放行，去考试
 if "task_id" in query_params:
-    # 1. 如果已经跳转成功，就不再重复执行
+    # 强制标记为非登录状态，防止学生乱跑
+    st.session_state.is_logged_in = False 
+    
     if st.session_state.get('auto_jump'):
         pass 
     else:
         try:
             b64_id = query_params["task_id"]
             if isinstance(b64_id, list): b64_id = b64_id[0]
-            
+            # 使用 URL 安全解码
             task_filename = base64.urlsafe_b64decode(b64_id).decode()
             task_data = load_task_from_file(task_filename)
             
             if task_data:
-                # 成功加载：进入学生页面
                 st.session_state.active_task_data = task_data
                 st.session_state.student_answers = {}
                 st.session_state.page = 'student_login'
                 st.session_state.auto_jump = True
                 st.rerun()
             else:
-                # 🛑 防盗门在这里！
-                # 如果没找到文件 (task_data 是空的)
                 st.error("⚠️ 作业已过期或未找到 / Task not found")
                 st.warning("请联系老师重新发送 / Please contact your teacher")
-                st.stop() # <--- 强制停车！禁止往下运行！
-                
+                st.stop()
         except Exception as e:
-            # 🛑 另一道防盗门：链接坏了也停车
             st.error(f"⚠️ 链接无效 / Invalid Link")
-            st.stop() # <--- 强制停车！
+            st.stop()
 
-# ==========================================
-# 下面是你原本的页面路由代码 (保持不变)
-# ==========================================
-if st.session_state.page == 'home': page_home()
-elif st.session_state.page == 'task_library': page_task_library()
-elif st.session_state.page == 'create': page_create()
-elif st.session_state.page == 'edit': page_edit()
-elif st.session_state.page == 'student_login': page_student_login()
-elif st.session_state.page == 'student_exam': page_student_exam()
-elif st.session_state.page == 'review_dashboard': page_review_dashboard()
+# 情况 B: 并没有 ID (访问主页)，且没登录 -> 拦截！显示登录页
+elif not st.session_state.get("is_logged_in", False):
+    page_teacher_login()
+
+# 情况 C: 已登录 -> 显示教师后台 (原来的路由逻辑)
+else:
+    if st.session_state.page == 'home': page_home()
+    elif st.session_state.page == 'task_library': page_task_library()
+    elif st.session_state.page == 'create': page_create()
+    elif st.session_state.page == 'edit': page_edit()
+    elif st.session_state.page == 'student_login': page_student_login() # 预览用
+    elif st.session_state.page == 'student_exam': page_student_exam()   # 预览用
+    elif st.session_state.page == 'review_dashboard': page_review_dashboard()
