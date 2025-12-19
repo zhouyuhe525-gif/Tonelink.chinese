@@ -1373,43 +1373,37 @@ def page_student_exam():
     enable_ai = st.toggle("🤖 AI", value=True)
     
     # ==========================================
-    # 📘 朗读 (Read) - 已修复重复分析问题
+    # 📘 朗读 (Read) - 已找回示范朗读功能
     # ==========================================
     if task.get('read'):
         st.markdown('<div class="read-box"><h3 class="section-title">📘 '+T("read_section")+'</h3>', unsafe_allow_html=True)
         for idx, q in enumerate(task['read']):
             with st.container(border=True):
-                py = get_pinyin(q)
                 with st.expander(f"🗣️ **{idx+1}. {q}** ({T('expand_pinyin')})"):
-                    st.markdown(f"<h3 style='color:#4CAF50'>{py}</h3>", unsafe_allow_html=True)
+                    st.markdown(f"<h3 style='color:#4CAF50'>{get_pinyin(q)}</h3>", unsafe_allow_html=True)
                 
+                # 🔊 这里加回来了：生成并播放示范音频
+                tts_file = get_tts_audio(q)
+                if tts_file: st.audio(tts_file)
+
                 # 录音控件
                 audio = audio_recorder(text="", key=f"r{idx}", recording_color="#2196F3", neutral_color="#eee")
                 if audio: st.audio(audio, format='audio/wav')
                 
                 ans_key = f"read_{idx}"
-                # 1. 初始化存储结构
                 if ans_key not in st.session_state.student_answers:
                     st.session_state.student_answers[ans_key] = {'type': '朗读', 'question_preview': q, 'score': -1, 'audio': None}
                 
-                # 2. 关键修改：获取之前保存的录音
                 old_audio = st.session_state.student_answers[ans_key].get('audio')
-
-                # 3. 只有当 audio 存在，且与旧录音不同时，才触发 AI
                 if audio and audio != old_audio:
-                    # 更新 Session 中的录音
                     st.session_state.student_answers[ans_key]['audio'] = audio
-                    
-                    # 触发 AI 分析
                     if enable_ai and AZURE_SPEECH_KEY:
                         with st.spinner(T("ai_analyzing")):
                             res_obj, _ = assess_pronunciation(q, audio, AZURE_SPEECH_KEY, AZURE_SPEECH_REGION)
                         if res_obj:
                             st.session_state.student_answers[ans_key]['score'] = int(res_obj.accuracy_score)
-                            # 保存详细评分对象供后续显示
                             st.session_state.student_answers[ans_key]['detail_res'] = res_obj 
-
-                # 4. 显示结果 (直接从 Session 读取，不重复计算)
+                
                 if st.session_state.student_answers[ans_key].get('score', -1) != -1:
                     res_obj = st.session_state.student_answers[ans_key].get('detail_res')
                     if res_obj:
