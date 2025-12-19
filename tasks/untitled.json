@@ -1,144 +1,139 @@
 {
     "title": "",
     "modules": [
-        "listen",
-        "speak",
         "read",
+        "speak",
+        "listen",
         "write"
     ],
-    "read": [],
+    "read": [
+        "电影",
+        "明天",
+        "我今天在家吃饭。",
+        "我在家买东西。"
+    ],
     "speak": [
         {
             "type": "翻译题",
-            "content": "Разница в возрасте: __________",
+            "content": "Куда он пошел？",
             "ref": "",
             "raw_type": "翻译题"
         },
         {
             "type": "翻译题",
-            "content": "Инфантильный/Ребячливый парень: __________",
+            "content": "Как тебя зовут?",
             "ref": "",
             "raw_type": "翻译题"
         },
         {
             "type": "翻译题",
-            "content": "Зрелый человек: __________",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "Тревога по поводу внешности: __________",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "Сделать пластическую операцию: __________",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "стандарты красоты / Взгляд на красоту: __________",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "Сильные мышцы: __________",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "(Мне) без разницы / всё равно: __________",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "Я не могу принять слишком большую разницу в возрасте.",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "Хотя он молодой, но он очень ответственный и у него есть план на будущее.",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "Ты заботишься о том, как на тебя смотрят другие люди?",
-            "ref": "",
-            "raw_type": "翻译题"
-        },
-        {
-            "type": "翻译题",
-            "content": "Раньше у меня были комплексы (низкая самооценка), но сейчас я стал увереннее.",
+            "content": "От куда ты?",
             "ref": "",
             "raw_type": "翻译题"
         },
         {
             "type": "问答题",
-            "content": "你觉得情侣之间最合适的年龄差是多少？为什么？",
+            "content": "今天天气怎么样？",
             "ref": "",
-            "tts_file": "tts_ef3a2dccb34657718ecd0d65a172a28f.mp3",
+            "tts_file": "tts_f334af875b702e818f869e06523ec4e2.mp3",
             "raw_type": "问答题"
         },
         {
             "type": "问答题",
-            "content": "但看到年龄差很大的情侣，你会有什么想法？",
+            "content": "你喜欢吃什么水果？",
             "ref": "",
-            "tts_file": "tts_d13164d4f4aaf19fc5c4c1fbfea773fe.mp3",
+            "tts_file": "tts_75a648acc946aea0d5609253b0c8d3d4.mp3",
             "raw_type": "问答题"
         },
         {
-            "type": "问答题",
-            "content": "现在很多年轻人有“容貌焦虑”，你觉得这是因为什么？",
+            "type": "作文题",
+            "content": "说一说你的周末。",
             "ref": "",
-            "tts_file": "tts_414b24df04f5f676bea655aba5639b4b.mp3",
-            "raw_type": "问答题"
-        },
-        {
-            "type": "问答题",
-            "content": "俄罗斯女孩儿对男人的审美标准是什么样的？",
-            "ref": "",
-            "tts_file": "tts_854360d97682832b15d9c207f9ab1185.mp3",
-            "raw_type": "问答题"
+            "raw_type": "作文题"
         }
     ],
     "listen": [
         {
             "type": "复述",
-            "content": "我不喜欢太幼稚的男生，因为容易吵架。我更喜欢成熟一点的，最好对工作和生活都有计划。",
-            "tts": "tts_30e2379ef1dc83a272d80da4ef8fdbde.mp3",
+            "content": "这是我的老师。",
+            "tts": "tts_e5cd77fa1b4baca4b0fa186482e3615c.mp3",
             "raw_type": "复述"
         },
         {
             "type": "复述",
-            "content": "关于外貌，其实我无所谓他有没有肌肉。但是如果他为了漂亮去整容，我可能有点儿接受不了。",
-            "tts": "tts_8f6bdbc4977860739ef2772a1fa1eecc.mp3",
+            "content": "这是我的朋友。",
+            "tts": "tts_eb45b1b3e9a6989d86871183339b1a9e.mp3",
             "raw_type": "复述"
         },
         {
             "type": "复述",
-            "content": "俄罗斯人的审美和中国人不太一样。比如，我们觉得健康、自信就是美，不需要在意别人的看法。",
-            "tts": "tts_04a60868124b03494ff6860597c4a945.mp3",
+            "content": "我去商店买东西。",
+            "tts": "tts_4aecc27ee1cf5dbda08a40ebfa74a3ce.mp3",
             "raw_type": "复述"
         },
         {
-            "type": "复述",
-            "content": "两个人在一起，如果年龄差很大，以后很难有共同话题。",
-            "tts": "tts_8c25d733587032c0db05eaee6d46ce85.mp3",
-            "raw_type": "复述"
+            "type": "问答",
+            "content": "你住在哪儿？",
+            "tts": "tts_a1c7856e74a93100c3926a2c0f814a00.mp3",
+            "raw_type": "问答"
         },
         {
-            "type": "复述",
-            "content": "他每天都去健身房运动，所以身体非常强壮。",
-            "tts": "tts_6094bdce5694ddf605de59ae01b044a8.mp3",
-            "raw_type": "复述"
+            "type": "问答",
+            "content": "你今天怎么样？",
+            "tts": "tts_9a3699bdfdf0d9070ec86a235b6a440e.mp3",
+            "raw_type": "问答"
+        },
+        {
+            "type": "填空",
+            "content": "她长得很 （漂亮）。",
+            "tts": "tts_a8ff89edf14b6e3b9b1fca60d25a965a.mp3",
+            "raw_type": "填空",
+            "display": "她长得很 （______）。",
+            "correct": "漂亮",
+            "options": [
+                "漂亮",
+                "干扰项"
+            ]
+        },
+        {
+            "type": "填空",
+            "content": "我（最）喜欢秋天。",
+            "tts": "tts_ac6cd5617e2bc7dd2dcd8a480c360652.mp3",
+            "raw_type": "填空",
+            "display": "我（______）喜欢秋天。",
+            "correct": "最",
+            "options": [
+                "最",
+                "干扰项"
+            ]
+        },
+        {
+            "type": "辨调",
+            "content": "可爱",
+            "tts": "tts_c8ea8eb5d7a4b6df0a92a862c5133976.mp3",
+            "raw_type": "辨调",
+            "text": "可爱",
+            "options": [
+                "kè ài",
+                "ké ái",
+                "ké ài",
+                "kě ài"
+            ],
+            "correct": "kě ài"
+        },
+        {
+            "type": "辨调",
+            "content": "女",
+            "tts": "tts_87c835a6b1749374a7524a596087b296.mp3",
+            "raw_type": "辨调",
+            "text": "女",
+            "options": [
+                "nǚ",
+                "nǚ",
+                "nv",
+                "nǚ"
+            ],
+            "correct": "nǚ"
         }
     ],
     "write": []
