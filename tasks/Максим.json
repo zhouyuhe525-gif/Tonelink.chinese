@@ -80,12 +80,6 @@
         },
         {
             "type": "问答",
-            "content": "咳嗽好了吗？",
-            "tts": "tts_4aa5ef3af3360338ff88230403393210.mp3",
-            "raw_type": "问答"
-        },
-        {
-            "type": "问答",
             "content": "我们今天什么时候和供应商见面？",
             "tts": "tts_e4e55615b309173b303ae89ab3ee9d1e.mp3",
             "raw_type": "问答"
