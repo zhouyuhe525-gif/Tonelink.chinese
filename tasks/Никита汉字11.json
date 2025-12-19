@@ -1,0 +1,56 @@
+{
+    "title": "Никита汉字（11）",
+    "modules": [
+        "write"
+    ],
+    "read": [],
+    "speak": [],
+    "listen": [],
+    "write": [
+        {
+            "hanzi": "唱歌",
+            "pinyin": "chànggē",
+            "russian": "петь, пение"
+        },
+        {
+            "hanzi": "男",
+            "pinyin": "nán",
+            "russian": "мужчина, мужской"
+        },
+        {
+            "hanzi": "女",
+            "pinyin": "nǚ",
+            "russian": "женщина, женский"
+        },
+        {
+            "hanzi": "孩子",
+            "pinyin": "háizi",
+            "russian": "ребёнок, дети"
+        },
+        {
+            "hanzi": "左边",
+            "pinyin": "zuǒbian",
+            "russian": "левая сторона, слева"
+        },
+        {
+            "hanzi": "右边",
+            "pinyin": "yòubian",
+            "russian": "правая сторона, справа"
+        },
+        {
+            "hanzi": "比",
+            "pinyin": "bǐ",
+            "russian": "сравнивать; чем (при сравнении)"
+        },
+        {
+            "hanzi": "便宜",
+            "pinyin": "piányi",
+            "russian": "дешёвый"
+        },
+        {
+            "hanzi": "卖",
+            "pinyin": "mài",
+            "russian": "продавать"
+        }
+    ]
+}
