@@ -278,6 +278,22 @@ def sync_file_to_github(file_path, content_bytes, commit_message="Update data"):
     except Exception as e:
         print(f"GitHub Sync Error: {e}")
 
+def delete_file_from_github(file_path, commit_message="Delete file"):
+    """从 GitHub 删除文件"""
+    if not MY_GITHUB_TOKEN: return
+    try:
+        repo = get_repo()
+        if not repo: return
+        remote_path = file_path.replace("\\", "/")
+        try:
+            contents = repo.get_contents(remote_path)
+            repo.delete_file(contents.path, commit_message, contents.sha)
+            st.toast(f"🗑️ 云端文件已删除: {remote_path}")
+        except:
+            pass # 文件不存在，无需删除
+    except Exception as e:
+        print(f"GitHub Delete Error: {e}")
+
 def load_file_from_github(file_path):
     """从 GitHub 读取文件内容"""
     if not MY_GITHUB_TOKEN: return None
@@ -797,7 +813,14 @@ def page_task_library():
                         st.session_state.page = 'student_login'; st.rerun()
                 with c5:
                     if st.button("🗑️", key=f"del_{filename}"):
-                        os.remove(os.path.join(current_path, filename)); st.rerun()
+                        # 1. 删本地
+                        try: os.remove(os.path.join(current_path, filename))
+                        except: pass
+                        
+                        # 2. 删云端 (新增这行)
+                        delete_file_from_github(os.path.join(current_path, filename), f"Delete task: {filename}")
+                        
+                        st.rerun()
                 
                 # --- 补丁：移动功能 ---
                 st.markdown("---")
