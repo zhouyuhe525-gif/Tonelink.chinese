@@ -1529,7 +1529,7 @@ def page_student_exam():
         st.markdown('</div>', unsafe_allow_html=True)
 
     # ==========================================
-    # 🟪 听力 (Listen) - 保持原样 (不需要改复杂逻辑，但也建议加上保护)
+    # 🟪 听力 (Listen) - 已修复音频丢失问题
     # ==========================================
     if task.get('listen'):
         st.markdown('<div class="listen-box"><h3 class="section-title">🟪 '+T("listen_section")+'</h3>', unsafe_allow_html=True)
@@ -1544,26 +1544,27 @@ def page_student_exam():
                 elif "辨调" in q_type_str: instruction = T("inst_tone")
                 if instruction: st.markdown(f":red[**{instruction}**]")
 
-                if q.get('tts') and os.path.exists(q.get('tts')): st.audio(q['tts'])
+                # === 🔊 核心修复：现场生成音频 ===
+                # 即使服务器重启删除了音频，这里也会根据文字重新生成，保证学生永远能听到
+                if q.get('content'):
+                    tts_file = get_tts_audio(q['content'])
+                    if tts_file: st.audio(tts_file)
+                # ==============================
+
                 ans_key = f"listen_{idx}"
                 
                 if "辨调" in q['type']:
-                    # 辨调不需要改，st.radio 本身就会保持状态
                     ans = st.radio("拼音", q['options'], key=f"lt{idx}", horizontal=True)
                     if ans: st.session_state.student_answers[ans_key] = {'score': 100 if ans==q['correct'] else 0, 'student_text_input': ans, 'type':q['type'], 'question_preview':q['text']}
                 elif "填空" in q['type']:
-                    # 填空同理
                     ans = st.radio(q['display'], q['options'], key=f"lc{idx}", horizontal=True)
                     if ans: st.session_state.student_answers[ans_key] = {'score': 100 if ans==q['correct'] else 0, 'student_text_input': ans, 'type':q['type'], 'question_preview':q['display']}
                 else:
-                    # 听力里的录音题 (复述/问答)
                     audio = audio_recorder(text="", key=f"lr{idx}", recording_color="#9C27B0", neutral_color="#eee")
                     if audio: st.audio(audio, format='audio/wav')
-                    
                     if ans_key not in st.session_state.student_answers: 
                         st.session_state.student_answers[ans_key] = {'type': q['type'], 'question_preview': q.get('content',''), 'score': -1, 'audio': None}
                     
-                    # 这里虽然听力没有接入实时AI评分，但加上这个逻辑可以防止 session 数据被无效覆写
                     old_audio = st.session_state.student_answers[ans_key].get('audio')
                     if audio and audio != old_audio:
                          st.session_state.student_answers[ans_key]['audio'] = audio
