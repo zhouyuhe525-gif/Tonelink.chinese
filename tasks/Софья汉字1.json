@@ -1,0 +1,406 @@
+{
+    "title": "Софья(汉字1)",
+    "modules": [
+        "write"
+    ],
+    "read": [],
+    "speak": [],
+    "listen": [],
+    "write": [
+        {
+            "hanzi": "我",
+            "pinyin": "wǒ",
+            "russian": "я"
+        },
+        {
+            "hanzi": "你",
+            "pinyin": "nǐ",
+            "russian": "ты"
+        },
+        {
+            "hanzi": "他",
+            "pinyin": "tā",
+            "russian": "он"
+        },
+        {
+            "hanzi": "他",
+            "pinyin": "tā",
+            "russian": "он"
+        },
+        {
+            "hanzi": "他们",
+            "pinyin": "tāmen",
+            "russian": "они (мужчины/смешанная группа)"
+        },
+        {
+            "hanzi": "老师",
+            "pinyin": "lǎoshī",
+            "russian": "учитель"
+        },
+        {
+            "hanzi": "学生",
+            "pinyin": "xuéshēng",
+            "russian": "студент, ученик"
+        },
+        {
+            "hanzi": "朋友",
+            "pinyin": "péngyou",
+            "russian": "друг"
+        },
+        {
+            "hanzi": "同事",
+            "pinyin": "tóngshì",
+            "russian": "коллега"
+        },
+        {
+            "hanzi": "猫",
+            "pinyin": "māo",
+            "russian": "кошка"
+        },
+        {
+            "hanzi": "狗",
+            "pinyin": "gǒu",
+            "russian": "собака"
+        },
+        {
+            "hanzi": "吗",
+            "pinyin": "ma",
+            "russian": "вопросительная частица (для общих вопросов)"
+        },
+        {
+            "hanzi": "呢",
+            "pinyin": "ne",
+            "russian": " а ...? (вопрос с контекстом)"
+        },
+        {
+            "hanzi": "什么",
+            "pinyin": "shénme",
+            "russian": "что?; какой?"
+        },
+        {
+            "hanzi": "谁",
+            "pinyin": "shéi / shuí",
+            "russian": "кто?"
+        },
+        {
+            "hanzi": "谁的",
+            "pinyin": "shéi de / shuí de",
+            "russian": "чей?"
+        },
+        {
+            "hanzi": "哪",
+            "pinyin": "nǎ",
+            "russian": "какой? (из ограниченного выбора)"
+        },
+        {
+            "hanzi": "怎么样",
+            "pinyin": "zěnmeyàng",
+            "russian": "как?; каков?"
+        },
+        {
+            "hanzi": "几",
+            "pinyin": "jǐ",
+            "russian": "сколько? (для небольших чисел, обычно до 10)"
+        },
+        {
+            "hanzi": "多大",
+            "pinyin": "duō dà",
+            "russian": "какого размера/возраста?; насколько большой?"
+        },
+        {
+            "hanzi": "什么时候",
+            "pinyin": "shénme shíhou",
+            "russian": "когда?"
+        },
+        {
+            "hanzi": "哪里",
+            "pinyin": "zài",
+            "russian": "находиться, в, на"
+        },
+        {
+            "hanzi": "叫",
+            "pinyin": "jiào",
+            "russian": "звать, называться"
+        },
+        {
+            "hanzi": "名字",
+            "pinyin": "míngzi",
+            "russian": "имя"
+        },
+        {
+            "hanzi": "是",
+            "pinyin": "shì",
+            "russian": "быть, являться"
+        },
+        {
+            "hanzi": "不是",
+            "pinyin": "bù shì",
+            "russian": "не быть, не являться"
+        },
+        {
+            "hanzi": "有",
+            "pinyin": "yǒu",
+            "russian": "иметь, есть"
+        },
+        {
+            "hanzi": "没有",
+            "pinyin": "méiyǒu",
+            "russian": "не иметь, нет"
+        },
+        {
+            "hanzi": "会",
+            "pinyin": "huì",
+            "russian": "уметь, мочь"
+        },
+        {
+            "hanzi": "不会",
+            "pinyin": "bù huì",
+            "russian": "не уметь, не мочь"
+        },
+        {
+            "hanzi": "岁",
+            "pinyin": "suì",
+            "russian": "годы (возраста)"
+        },
+        {
+            "hanzi": "这",
+            "pinyin": "zhè",
+            "russian": "этот"
+        },
+        {
+            "hanzi": "那",
+            "pinyin": "nà",
+            "russian": "тот"
+        },
+        {
+            "hanzi": "个",
+            "pinyin": "gè",
+            "russian": "общий счётный суффикс"
+        },
+        {
+            "hanzi": "这里",
+            "pinyin": "zhèli",
+            "russian": "здесь"
+        },
+        {
+            "hanzi": "那里",
+            "pinyin": "nàli",
+            "russian": "там"
+        },
+        {
+            "hanzi": "说",
+            "pinyin": "shuō",
+            "russian": "говорить, сказать"
+        },
+        {
+            "hanzi": "做",
+            "pinyin": "zuò",
+            "russian": "делать"
+        },
+        {
+            "hanzi": "吃",
+            "pinyin": "chī",
+            "russian": "есть, кушать"
+        },
+        {
+            "hanzi": "喝",
+            "pinyin": "hē",
+            "russian": "пить"
+        },
+        {
+            "hanzi": "买",
+            "pinyin": "mǎi",
+            "russian": "покупать"
+        },
+        {
+            "hanzi": "去",
+            "pinyin": "qù",
+            "russian": "идти, уходить, отправляться"
+        },
+        {
+            "hanzi": "看",
+            "pinyin": "kàn",
+            "russian": "смотреть, видеть"
+        },
+        {
+            "hanzi": "工作",
+            "pinyin": "gōngzuò",
+            "russian": "работать; работа"
+        },
+        {
+            "hanzi": "住",
+            "pinyin": "zhù",
+            "russian": "жить, проживать"
+        },
+        {
+            "hanzi": "在",
+            "pinyin": "zài",
+            "russian": "находиться (в/на); в; при"
+        },
+        {
+            "hanzi": "今天",
+            "pinyin": "jīntiān",
+            "russian": "сегодня"
+        },
+        {
+            "hanzi": "昨天",
+            "pinyin": "zuótiān",
+            "russian": "вчера"
+        },
+        {
+            "hanzi": "明天",
+            "pinyin": "míngtiān",
+            "russian": "завтра"
+        },
+        {
+            "hanzi": "今年",
+            "pinyin": "jīnnián",
+            "russian": "этот год"
+        },
+        {
+            "hanzi": "现在",
+            "pinyin": "xiànzài",
+            "russian": "сейчас"
+        },
+        {
+            "hanzi": "早上",
+            "pinyin": "zǎoshang",
+            "russian": "утро (раннее)"
+        },
+        {
+            "hanzi": "上午",
+            "pinyin": "shàngwǔ",
+            "russian": "до полудня, первая половина дня"
+        },
+        {
+            "hanzi": "中午",
+            "pinyin": "zhōngwǔ",
+            "russian": "полдень"
+        },
+        {
+            "hanzi": "下午",
+            "pinyin": "xiàwǔ",
+            "russian": "после полудня, вторая половина дня"
+        },
+        {
+            "hanzi": "晚上",
+            "pinyin": "wǎnshang",
+            "russian": "вечер"
+        },
+        {
+            "hanzi": "星期",
+            "pinyin": "xīngqī",
+            "russian": "неделя"
+        },
+        {
+            "hanzi": "月",
+            "pinyin": "yuè",
+            "russian": "месяц"
+        },
+        {
+            "hanzi": "点",
+            "pinyin": "diǎn",
+            "russian": "час (время)"
+        },
+        {
+            "hanzi": "分",
+            "pinyin": "fēn",
+            "russian": "минута"
+        },
+        {
+            "hanzi": "很",
+            "pinyin": "hěn",
+            "russian": "очень"
+        },
+        {
+            "hanzi": "菜",
+            "pinyin": "cài",
+            "russian": "блюдо, овощи"
+        },
+        {
+            "hanzi": "茶",
+            "pinyin": "chá",
+            "russian": "чай"
+        },
+        {
+            "hanzi": "米饭",
+            "pinyin": "mǐfàn",
+            "russian": "рис (приготовленный)"
+        },
+        {
+            "hanzi": "好吃",
+            "pinyin": "hǎochī",
+            "russian": "вкусный"
+        },
+        {
+            "hanzi": "好看",
+            "pinyin": "hǎokàn",
+            "russian": "красивый, приятный на вид"
+        },
+        {
+            "hanzi": "热",
+            "pinyin": "rè",
+            "russian": "горячий, жаркий"
+        },
+        {
+            "hanzi": "冷",
+            "pinyin": "lěng",
+            "russian": "холодный"
+        },
+        {
+            "hanzi": "天气",
+            "pinyin": "tiānqì",
+            "russian": "погода"
+        },
+        {
+            "hanzi": "书",
+            "pinyin": "shū",
+            "russian": "книга"
+        },
+        {
+            "hanzi": "水果",
+            "pinyin": "shuǐguǒ",
+            "russian": "фрукты"
+        },
+        {
+            "hanzi": "苹果",
+            "pinyin": "píngguǒ",
+            "russian": "яблоко"
+        },
+        {
+            "hanzi": "多",
+            "pinyin": "duō",
+            "russian": "много"
+        },
+        {
+            "hanzi": "大",
+            "pinyin": "dà",
+            "russian": "большой"
+        },
+        {
+            "hanzi": "了",
+            "pinyin": "le",
+            "russian": "Служебная частица, указывающая на завершённость действия или изменение состояния."
+        },
+        {
+            "hanzi": "商店",
+            "pinyin": "shāngdiàn",
+            "russian": "магазин"
+        },
+        {
+            "hanzi": "国",
+            "pinyin": "guó",
+            "russian": "государство, страна"
+        },
+        {
+            "hanzi": "家",
+            "pinyin": "jiā",
+            "russian": "дом, семья"
+        },
+        {
+            "hanzi": "公司",
+            "pinyin": "gōngsī",
+            "russian": "компания, фирма"
+        }
+    ]
+}
