@@ -1,0 +1,121 @@
+{
+    "title": "Lisa(汉字作业-旅游-交通+住宿）",
+    "modules": [
+        "write"
+    ],
+    "read": [],
+    "speak": [],
+    "listen": [],
+    "write": [
+        {
+            "hanzi": "攻略",
+            "pinyin": "gōnglüè",
+            "russian": "гайд"
+        },
+        {
+            "hanzi": "旅游攻略",
+            "pinyin": "lǚyóu gōnglüè",
+            "russian": "туристическое руководство"
+        },
+        {
+            "hanzi": "搜",
+            "pinyin": "sōu",
+            "russian": "искать, поиск"
+        },
+        {
+            "hanzi": "详细",
+            "pinyin": "xiángxì",
+            "russian": "подробный"
+        },
+        {
+            "hanzi": "参观",
+            "pinyin": "cānguān",
+            "russian": "посещать, осматривать"
+        },
+        {
+            "hanzi": "景点",
+            "pinyin": "jǐngdiǎn",
+            "russian": "достопримечательность"
+        },
+        {
+            "hanzi": "推荐",
+            "pinyin": "tuījiàn",
+            "russian": "рекомендовать"
+        },
+        {
+            "hanzi": "踩雷",
+            "pinyin": "cǎiléi",
+            "russian": "наткнуться на проблему, разочароваться,наступить на мину"
+        },
+        {
+            "hanzi": "海滩",
+            "pinyin": "hǎitān",
+            "russian": "пляж"
+        },
+        {
+            "hanzi": "星级",
+            "pinyin": "xīngjí",
+            "russian": "звездный рейтинг"
+        },
+        {
+            "hanzi": "评价",
+            "pinyin": "píngjià",
+            "russian": "оценка, отзыв"
+        },
+        {
+            "hanzi": "差评",
+            "pinyin": "chāpíng",
+            "russian": "негативный отзыв"
+        },
+        {
+            "hanzi": "普遍",
+            "pinyin": "pǔbiàn",
+            "russian": "распространённый, общий"
+        },
+        {
+            "hanzi": "高铁",
+            "pinyin": "gāotiě",
+            "russian": "скоростной поезд"
+        },
+        {
+            "hanzi": "欣赏",
+            "pinyin": "xīnshǎng",
+            "russian": "любоваться, восхищаться"
+        },
+        {
+            "hanzi": "位置",
+            "pinyin": "wèizhi",
+            "russian": "местоположение"
+        },
+        {
+            "hanzi": "之间",
+            "pinyin": "zhījiān",
+            "russian": "между"
+        },
+        {
+            "hanzi": "建",
+            "pinyin": "jiàn",
+            "russian": "строить"
+        },
+        {
+            "hanzi": "限制",
+            "pinyin": "xiànzhì",
+            "russian": "ограничение"
+        },
+        {
+            "hanzi": "安检",
+            "pinyin": "ānjiǎn",
+            "russian": "проверка безопасности"
+        },
+        {
+            "hanzi": "充电宝",
+            "pinyin": "chóngdiànbǎo",
+            "russian": "внешний аккумулятор"
+        },
+        {
+            "hanzi": "相对",
+            "pinyin": "xiāngduì",
+            "russian": "относительный"
+        }
+    ]
+}
